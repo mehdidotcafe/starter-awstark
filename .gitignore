@@ -1,0 +1,11 @@
+# npm
+node_modules/
+
+# env files
+.env
+
+# jest
+coverage/
+
+# tsc build
+build/
