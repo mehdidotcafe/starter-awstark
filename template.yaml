@@ -23,15 +23,15 @@ Globals:
     #   AllowOrigin: "'*'"
 
 Resources:
-  HelloWorldFunction:
+  StatusFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      Handler: app.default
+      Handler: status.default
       Events:
-        HelloWorld:
+        Status:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /hello
+            Path: /status
             Method: get
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
