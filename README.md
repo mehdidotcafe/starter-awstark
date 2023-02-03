@@ -4,7 +4,7 @@
 - zod
 ✅ - jest
 ✅ - eslint
-- husky & lint-staged
+✅ - husky & lint-staged
 - github actions
 
 - typeorm (prisma) ?
