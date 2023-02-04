@@ -14,7 +14,7 @@ Globals:
     Architectures:
       - x86_64
     MemorySize: 128
-    CodeUri: build/handlers/
+    CodeUri: ./
   Api:
     TracingEnabled: true
     # Cors:
@@ -26,13 +26,33 @@ Resources:
   StatusFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      Handler: status.default
+      Handler: build/handlers/status.default
       Events:
         Status:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /status
             Method: get
+  ValidationGetFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      Handler: build/handlers/validation/get.default
+      Events:
+        Status:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /validation
+            Method: get
+  ValidationPostFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      Handler: build/handlers/validation/post.default
+      Events:
+        Status:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /validation
+            Method: post
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
     Properties:
