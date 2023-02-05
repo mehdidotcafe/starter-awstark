@@ -1,5 +1,8 @@
 import { APIGatewayProxyResult } from 'aws-lambda'
 
+import internalError from '../response/internalError'
+import success from '../response/success'
+
 /**
  *
  * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
@@ -12,19 +15,13 @@ import { APIGatewayProxyResult } from 'aws-lambda'
 
 const handler = async (): Promise<APIGatewayProxyResult> => {
   try {
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: 'hello awstark',
-      }),
-    }
+    return success({
+      message: 'up',
+    })
   } catch (err) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        message: 'some error happened',
-      }),
-    }
+    return internalError({
+      message: 'down',
+    })
   }
 }
 

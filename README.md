@@ -5,7 +5,7 @@
 ✅ - jest  
 ✅ - eslint  
 ✅ - husky & lint-staged  
-- github actions
+✅ - github actions  
 
-- typeorm (prisma) ?
+✅ - prisma  
 - docker ?

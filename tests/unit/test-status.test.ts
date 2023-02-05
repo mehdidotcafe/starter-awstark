@@ -9,7 +9,7 @@ describe('Unit test for app handler', () => {
     expect(result.statusCode).toEqual(200)
     expect(result.body).toEqual(
       JSON.stringify({
-        message: 'hello awstark',
+        message: 'up',
       }),
     )
   })
