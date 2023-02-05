@@ -17,7 +17,7 @@ const handler = async (event: ValidatedEvent<typeof validator>): Promise<APIGate
       statusCode: 200,
       body: JSON.stringify({
         message: 'Validated successfully',
-        ...event.queryStringParameters,
+        queryStringParameters: event.queryStringParameters,
       }),
     }
   } catch (err) {
