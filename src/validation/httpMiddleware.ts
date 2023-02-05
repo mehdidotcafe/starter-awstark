@@ -4,6 +4,8 @@ import {
   z, ZodError, ZodObject, ZodRawShape,
 } from 'zod'
 
+import badRequest from '../response/badRequest'
+
 const httpMiddleware = (validator: ZodObject<ZodRawShape>): Returns => {
   const before: middy.MiddlewareFn<APIGatewayProxyEvent, APIGatewayProxyResult> = async (
     request,
@@ -20,13 +22,12 @@ const httpMiddleware = (validator: ZodObject<ZodRawShape>): Returns => {
     request,
   ): Promise<void> => {
     if (request.error instanceof ZodError) {
-      request.response = {
-        statusCode: VALIDATION_ERROR_STATUS_CODE,
-        body: JSON.stringify({
-          message: VALIDATION_ERROR_MESSAGE,
+      request.response = badRequest({
+        message: VALIDATION_ERROR_MESSAGE,
+        data: {
           errors: (request.error as ZodError).issues,
-        }),
-      }
+        },
+      })
     }
   }
 
@@ -36,7 +37,6 @@ const httpMiddleware = (validator: ZodObject<ZodRawShape>): Returns => {
   }
 }
 
-const VALIDATION_ERROR_STATUS_CODE = 400
 const VALIDATION_ERROR_MESSAGE = 'Invalid request'
 
 type Returns = middy.MiddlewareObj<APIGatewayProxyEvent, APIGatewayProxyResult>

@@ -2,7 +2,9 @@ import middy from '@middy/core'
 import type { APIGatewayProxyResult } from 'aws-lambda'
 import { z } from 'zod'
 
-import validationHttpMiddleware, { ValidatedEvent } from '../../common/validation/httpMiddleware'
+import internalError from '../../response/internalError'
+import success from '../../response/success'
+import validationHttpMiddleware, { ValidatedEvent } from '../../validation/httpMiddleware'
 
 const validator = z.object({
   queryStringParameters: z.object({
@@ -13,20 +15,12 @@ const validator = z.object({
 
 const handler = async (event: ValidatedEvent<typeof validator>): Promise<APIGatewayProxyResult> => {
   try {
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: 'Validated successfully',
-        queryStringParameters: event.queryStringParameters,
-      }),
-    }
+    return success({
+      message: 'Validated successfully',
+      data: event.queryStringParameters,
+    })
   } catch (err) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        message: 'some error happened',
-      }),
-    }
+    return internalError()
   }
 }
 

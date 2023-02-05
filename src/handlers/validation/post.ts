@@ -3,7 +3,9 @@ import httpJsonBodyParser from '@middy/http-json-body-parser'
 import type { APIGatewayProxyResult } from 'aws-lambda'
 import { z } from 'zod'
 
-import validationHttpMiddleware, { ValidatedEvent } from '../../common/validation/httpMiddleware'
+import internalError from '../../response/internalError'
+import success from '../../response/success'
+import validationHttpMiddleware, { ValidatedEvent } from '../../validation/httpMiddleware'
 
 const validator = z.object({
   body: z.object({
@@ -14,20 +16,14 @@ const validator = z.object({
 
 const handler = async (event: ValidatedEvent<typeof validator>): Promise<APIGatewayProxyResult> => {
   try {
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: 'Validated successfully',
-        body: event.body,
-      }),
-    }
+    return success({
+      message: 'Validated successfully',
+      data: event.body,
+    })
   } catch (err) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        message: 'some error happened',
-      }),
-    }
+    return internalError({
+      message: 'some error happened',
+    })
   }
 }
 
