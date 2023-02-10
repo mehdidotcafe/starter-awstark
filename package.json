@@ -1,6 +1,6 @@
 {
   "name": "awstark",
-  "version": "0.0.6",
+  "version": "0.0.7-beta.1",
   "description": "node.js typescript (AWS serverless) starter kit",
   "author": "mehdidotcafe",
   "private": false,
@@ -11,10 +11,11 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "lint:staged": "lint-staged",
     "build": "tsc",
+    "db:migrate": "prisma migrate deploy",
     "start": "rm -r .aws-sam & concurrently --names \"tsc,sam\" -c \"bgBlue.bold,bgMagenta.bold\" \"yarn start:tsc\" \"yarn start:sam\"",
     "start:tsc": "tsc -w",
     "start:sam": "sam local start-api 2>&1 | tr '\\r' '\\n'",
-    "prepare": "husky install"
+    "prepare": "husky install || true"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.92",
