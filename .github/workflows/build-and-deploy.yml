@@ -23,9 +23,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+    - name: Fetch secrets from AWS
+      uses: dkershner6/aws-ssm-getparameters-action@v1
+      with:
+        parameterPairs: "DB_URL = DB_URL"
     - run: npm install esbuild -g
     - run: sam build
-    - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
+    - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --parameter-overrides DB_URL=${{ env.DB_URL }}
       env:
         CI: true
 
