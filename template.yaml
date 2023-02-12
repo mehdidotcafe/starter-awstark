@@ -13,7 +13,7 @@ Parameters:
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 30
     Tracing: Active
     Runtime: nodejs18.x
     Architectures:
