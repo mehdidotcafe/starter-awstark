@@ -27,6 +27,7 @@ jobs:
       uses: dkershner6/aws-ssm-getparameters-action@v1
       with:
         parameterPairs: "DB_URL = DB_URL, DB_NAME = DB_NAME"
+    - run: npm install
     - run: npm install esbuild -g
     - run: sam build
     - run: ./scripts/post-build.sh
