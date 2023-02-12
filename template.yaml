@@ -1,9 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: >
-  sam-app
-
-    Sample SAM Template for sam-app
+Description: "Awstark API"
 
 Parameters:
   DbUrl:
@@ -26,10 +23,6 @@ Globals:
 
   Api:
     TracingEnabled: true
-    # Cors:
-    #   AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with'"
-    #   AllowMethods: "'OPTIONS, POST, PUT, GET, DELETE, PATCH'"
-    #   AllowOrigin: "'*'"
 
 Resources:
   StatusFunction:
