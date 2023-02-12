@@ -6,6 +6,4 @@
 ✅ - eslint  
 ✅ - husky & lint-staged  
 ✅ - github actions  
-
 ✅ - prisma  
-- docker ?

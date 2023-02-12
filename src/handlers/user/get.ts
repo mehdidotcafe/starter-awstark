@@ -49,6 +49,10 @@ const handler = async (
   } catch (err) {
     return serviceUnavailable({
       message: 'Service unavailable',
+      data: {
+        code: err.code,
+        error: err.message,
+      },
     })
   }
 }
