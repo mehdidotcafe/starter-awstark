@@ -5,6 +5,11 @@ Description: >
 
     Sample SAM Template for sam-app
 
+Parameters:
+  DbUrl:
+    Type: String
+    Description: Database URL
+
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
@@ -15,6 +20,10 @@ Globals:
       - x86_64
     MemorySize: 128
     CodeUri: ./
+    Environment:
+      Variables:
+        DB_URL: !Ref DbUrl
+
   Api:
     TracingEnabled: true
     # Cors:

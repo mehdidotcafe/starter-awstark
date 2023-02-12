@@ -1,6 +1,6 @@
 {
   "name": "awstark",
-  "version": "0.0.7-beta.3",
+  "version": "0.0.7-beta.4",
   "description": "node.js typescript (AWS serverless) starter kit",
   "author": "mehdidotcafe",
   "private": false,
@@ -10,7 +10,7 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "lint:staged": "lint-staged",
-    "build": "tsc",
+    "build": "sam build && ./scripts/post-build.sh",
     "db:migrate": "prisma migrate deploy",
     "start": "rm -r .aws-sam & concurrently --names \"tsc,sam\" -c \"bgBlue.bold,bgMagenta.bold\" \"yarn start:tsc\" \"yarn start:sam\"",
     "start:tsc": "tsc -w",

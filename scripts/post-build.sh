@@ -7,6 +7,11 @@ filesToCopy=(
 )
 
 # excute this command: "echo .aws-sam/build/*/" and store the result in destinations variable
-destinations=( $(echo .aws-sam/build/*/ | xargs -n 1) )
+rawDestinations=( $(echo .aws-sam/build/*/ | xargs -n 1) )
+
+# add "node_modules/.prisma/client/" to each destination
+destinations=( $(for i in "${rawDestinations[@]}"; do echo "$i/node_modules/.prisma/client/"; done) )
+
+mkdir -p ${destinations[@]}
 
 xargs -n 1 cp -v  ${filesToCopy[@]}  <<< ${destinations[@]}
