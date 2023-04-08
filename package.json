@@ -1,6 +1,6 @@
 {
   "name": "awstark",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "node.js typescript (AWS serverless) starter kit",
   "author": "mehdidotcafe",
   "private": false,
