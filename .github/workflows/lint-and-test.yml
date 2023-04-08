@@ -30,7 +30,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - uses: ./workflows/actions/export-secrets-in-env
+    - uses: ./.github/workflows/actions/export-secrets-in-env
     - run: npm install
     - run: npm test
       env:
