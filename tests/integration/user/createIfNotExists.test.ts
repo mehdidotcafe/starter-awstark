@@ -4,7 +4,7 @@ import makeFakeRequest from '../factories/makeFakeRequest'
 
 describe('Create user', () => {
   it('should not create user when user email is not valid', async () => {
-    console.log('test')
+    console.log(`test${process.env.DB_NAME}`)
 
     const result = await handler(makeFakeRequest({
       body: {
