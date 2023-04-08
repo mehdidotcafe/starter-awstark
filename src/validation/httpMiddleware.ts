@@ -30,9 +30,7 @@ const httpMiddleware = <Validator extends ZodObject<ZodRawShape>>(
     if (request.error instanceof ZodError) {
       request.response = badRequest({
         message: VALIDATION_ERROR_MESSAGE,
-        data: {
-          errors: (request.error as ZodError).issues,
-        },
+        errors: mapZodErrorToApiErrors(request.error),
       })
     }
   }
@@ -43,7 +41,12 @@ const httpMiddleware = <Validator extends ZodObject<ZodRawShape>>(
   }
 }
 
-const VALIDATION_ERROR_MESSAGE = 'Invalid request'
+const mapZodErrorToApiErrors = (error: ZodError): ApiResponse['body']['errors'] => error.issues.map((issue) => ({
+  message: issue.message,
+  path: issue.path,
+}))
+
+const VALIDATION_ERROR_MESSAGE = 'Validation error'
 
 type Returns<Validator extends ZodObject<ZodRawShape>> = middy.MiddlewareObj<
 ApiEvent<Validator>,
