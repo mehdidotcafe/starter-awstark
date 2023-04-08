@@ -77,18 +77,15 @@ describe('Create user', () => {
       body: userToCreate,
     }), makeFakeContext())
 
-    console.log(result.body)
-
-    expect(true).toBe(true)
-    // expect(result.statusCode).toEqual(200)
-    // expect(JSON.parse(result.body)).toEqual({
-    //   message: 'User created',
-    //   data: {
-    //     id: expect.any(Number),
-    //     email: userToCreate.email,
-    //     firstname: userToCreate.firstname,
-    //   },
-    // })
+    expect(result.statusCode).toEqual(200)
+    expect(JSON.parse(result.body)).toEqual({
+      message: 'User created',
+      data: {
+        id: expect.any(Number),
+        email: userToCreate.email,
+        firstname: userToCreate.firstname,
+      },
+    })
   })
 
   it('should NOT create user when user email is already used', async () => {
