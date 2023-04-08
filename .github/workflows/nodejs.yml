@@ -41,6 +41,11 @@ jobs:
       matrix:
         node-version: [18.x]
     steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
     - uses: aws-actions/configure-aws-credentials@v1
       with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -49,12 +54,7 @@ jobs:
     - name: Fetch secrets from AWS
       uses: dkershner6/aws-ssm-getparameters-action@v1
       with:
-        parameterPairs: "DB_URL = DB_URL, DB_NAME = DB_NAME"
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
+        parameterPairs: "DB_URL = DB_URL"
     - run: npm install
     - run: npm test
       env:
