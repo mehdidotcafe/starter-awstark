@@ -1,3 +1,3 @@
 export default () => ({
-  getRemainingTimeInMillis: () => 1000,
+  getRemainingTimeInMillis: () => 10000,
 } as any)
