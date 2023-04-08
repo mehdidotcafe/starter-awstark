@@ -1,12 +1,13 @@
 {
   "name": "awstark",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "node.js typescript (AWS serverless) starter kit",
   "author": "mehdidotcafe",
   "private": false,
   "license": "GPL-3.0-or-later",
   "scripts": {
     "test": "jest",
+    "test:watch": "jest --watch",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "lint:staged": "lint-staged",
