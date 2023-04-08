@@ -43,42 +43,6 @@ Resources:
         Target: "es2020"
         EntryPoints: 
           - src/handlers/status.ts
-  ValidationGetFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: build/handlers/validation/get.default
-      Events:
-        Status:
-          Type: Api
-          Properties:
-            Path: /validation
-            Method: get
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Format: cjs
-        Minify: true
-        Target: "es2020"
-        EntryPoints: 
-          - src/handlers/validation/get.ts
-  ValidationPostFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: build/handlers/validation/post.default
-      Events:
-        Status:
-          Type: Api
-          Properties:
-            Path: /validation
-            Method: post
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Format: cjs
-        Minify: true
-        Target: "es2020"
-        EntryPoints: 
-          - src/handlers/validation/post.ts
   UserGetFunction:
     Type: AWS::Serverless::Function
     Properties:

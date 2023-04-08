@@ -1,6 +1,6 @@
 {
   "name": "awstark",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "node.js typescript (AWS serverless) starter kit",
   "author": "mehdidotcafe",
   "private": false,
@@ -14,7 +14,7 @@
     "db:migrate": "prisma migrate deploy",
     "start": "rm -r .aws-sam & concurrently --names \"tsc,sam\" -c \"bgBlue.bold,bgMagenta.bold\" \"yarn start:tsc\" \"yarn start:sam\"",
     "start:tsc": "tsc -w",
-    "start:sam": "sam local start-api 2>&1 | tr '\\r' '\\n'",
+    "start:sam": "(sam local start-api --parameter-overrides 'DbUrl=postgresql://awstark:awstark@192.168.1.19:5432/awstark?schema=public') 2>&1 | tr '\\r' '\\n'",
     "prepare": "husky install || true"
   },
   "devDependencies": {

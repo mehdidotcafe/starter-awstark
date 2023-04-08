@@ -1,24 +1,30 @@
 import middy from '@middy/core'
-import type { APIGatewayEvent, APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import {
-  z, ZodError, ZodObject, ZodRawShape,
+  ZodError, ZodObject, ZodRawShape,
 } from 'zod'
 
+import type ApiEvent from '../domain/http/ApiEvent'
+import type ApiResponse from '../domain/http/ApiResponse'
 import badRequest from '../response/badRequest'
 
-const httpMiddleware = (validator: ZodObject<ZodRawShape>): Returns => {
-  const before: middy.MiddlewareFn<APIGatewayProxyEvent, APIGatewayProxyResult> = async (
+const httpMiddleware = <Validator extends ZodObject<ZodRawShape>>(
+  validator: Validator,
+): Returns<Validator> => {
+  const before: middy.MiddlewareFn<ApiEvent, ApiResponse> = async (
     request,
   ): Promise<void> => {
     const params = validator.parse(request.event)
-
-    Object.assign(request.event, {
-      ...request.event,
+    const parsedEvent: ApiEvent = {
+      headers: request.event.headers,
+      body: undefined,
+      queryStringParameters: undefined,
       ...params,
-    })
+    }
+
+    request.event = parsedEvent
   }
 
-  const onError: middy.MiddlewareFn<APIGatewayProxyEvent, APIGatewayProxyResult> = async (
+  const onError: middy.MiddlewareFn<ApiEvent, ApiResponse> = async (
     request,
   ): Promise<void> => {
     if (request.error instanceof ZodError) {
@@ -39,12 +45,9 @@ const httpMiddleware = (validator: ZodObject<ZodRawShape>): Returns => {
 
 const VALIDATION_ERROR_MESSAGE = 'Invalid request'
 
-type Returns = middy.MiddlewareObj<APIGatewayProxyEvent, APIGatewayProxyResult>
-
-export type ValidatedEvent<EventSchema extends ZodObject<ZodRawShape>> = Omit<
-APIGatewayEvent,
-keyof z.infer<EventSchema>
-> &
-z.infer<EventSchema>
+type Returns<Validator extends ZodObject<ZodRawShape>> = middy.MiddlewareObj<
+ApiEvent<Validator>,
+ApiResponse
+>
 
 export default httpMiddleware
