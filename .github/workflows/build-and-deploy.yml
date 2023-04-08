@@ -18,7 +18,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - uses: aws-actions/setup-sam@v2
-    - uses: ./actions/export-secrets-in-env
+    - uses: ./workflows/actions/export-secrets-in-env
     - run: npm install
     - run: npm install esbuild -g
     - run: npm run build
@@ -38,7 +38,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - uses: ./actions/export-secrets-in-env
+    - uses: ./workflows/actions/export-secrets-in-env
     - run: npm install --production
     - run: npm run db:migrate
       env:
