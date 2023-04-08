@@ -29,7 +29,7 @@ describe('Get user by email', () => {
     })
   })
 
-  it('should NOT get user by email when doesn\'t user exist', async () => {
+  it('should NOT get user by email when user doesn\'t exist', async () => {
     const userWhoDoesntExist = makeFakeUser()
 
     const result = await getByEmailHandler(makeFakeRequest({

@@ -4,8 +4,6 @@ import makeFakeRequest from '../factories/makeFakeRequest'
 
 describe('Create user', () => {
   it('should not create user when user email is not valid', async () => {
-    console.log(`test${process.env.DB_NAME}`)
-
     const result = await handler(makeFakeRequest({
       body: {
         email: 'not_a_valid_email',
@@ -13,8 +11,6 @@ describe('Create user', () => {
         firstname: 'valid_firstname',
       },
     }), makeFakeContext())
-
-    console.log(result.body)
 
     expect(result.statusCode).toEqual(400)
     expect(JSON.parse(result.body)).toEqual({
@@ -80,6 +76,8 @@ describe('Create user', () => {
     const result = await handler(makeFakeRequest({
       body: userToCreate,
     }), makeFakeContext())
+
+    console.log(result.body)
 
     expect(result.statusCode).toEqual(200)
     expect(JSON.parse(result.body)).toEqual({
