@@ -28,7 +28,7 @@ Resources:
   StatusFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: build/handlers/status.default
+      Handler: build/handlers/status/isUp.default
       Events:
         Status:
           Type: Api
@@ -42,11 +42,11 @@ Resources:
         Minify: true
         Target: "es2020"
         EntryPoints: 
-          - src/handlers/status.ts
+          - src/handlers/status/isUp.ts
   UserGetFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: build/handlers/user/get.default
+      Handler: build/handlers/user/getByEmail.default
       Events:
         Status:
           Type: Api
@@ -60,11 +60,11 @@ Resources:
         Minify: true
         Target: "es2020"
         EntryPoints: 
-          - src/handlers/user/get.ts
+          - src/handlers/user/getByEmail.ts
   UserPostFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: build/handlers/user/post.default
+      Handler: build/handlers/user/createIfNotExists.default
       Events:
         Status:
           Type: Api
@@ -78,7 +78,7 @@ Resources:
         Minify: true
         Target: "es2020"
         EntryPoints: 
-          - src/handlers/user/post.ts
+          - src/handlers/user/createIfNotExists.ts
 
 
 
