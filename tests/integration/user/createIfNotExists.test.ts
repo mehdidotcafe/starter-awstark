@@ -14,6 +14,8 @@ describe('Create user', () => {
       },
     }), makeFakeContext())
 
+    console.log(result.body)
+
     expect(result.statusCode).toEqual(400)
     expect(JSON.parse(result.body)).toEqual({
       message: 'Validation error',
