@@ -1,0 +1,24 @@
+name: 'Export Secrets in Env'
+description: 'Export secrets from AWS SSM Parameter Store to environment variables'
+inputs:
+  AWS_ACCESS_KEY_ID:
+    description: 'AWS access key ID'
+    required: true
+  AWS_SECRET_ACCESS_KEY:
+    description: 'AWS secret access key'
+    required: true
+  AWS_REGION:
+    description: 'AWS region'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+            aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ inputs.AWS_REGION }}
+      - name: Fetch secrets from AWS
+        uses: dkershner6/aws-ssm-getparameters-action@v1
+        with:
+          parameterPairs: "DB_URL = DB_URL"
