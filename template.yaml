@@ -6,11 +6,13 @@ Parameters:
   DbUrl:
     Type: String
     Description: Database URL
+  ShadowDbUrl:
+    Type: String
+    Description: Shadow Database URL
 
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 30
+    Timeout: 50
     Tracing: Active
     Runtime: nodejs18.x
     Architectures:
@@ -20,6 +22,7 @@ Globals:
     Environment:
       Variables:
         DB_URL: !Ref DbUrl
+        SHADOW_DB_URL: !Ref ShadowDbUrl
 
   Api:
     TracingEnabled: true
@@ -79,39 +82,6 @@ Resources:
         Target: "es2020"
         EntryPoints: 
           - src/handlers/user/createIfNotExists.ts
-
-
-
-  Database:
-    Type: AWS::RDS::DBInstance
-    Properties:
-      AllocatedStorage: 20
-      DBInstanceClass: db.t3.micro
-      Engine: postgres
-      MasterUsername: '{{resolve:ssm:DB_USER}}'
-      MasterUserPassword: '{{resolve:ssm-secure:DB_PASSWORD}}'
-      DBName: '{{resolve:ssm:DB_NAME}}'
-  
-  ApplicationResourceGroup:
-    Type: AWS::ResourceGroups::Group
-    Properties:
-      Name:
-        Fn::Join:
-        - ''
-        - - ApplicationInsights-SAM-
-          - Ref: AWS::StackName
-      ResourceQuery:
-        Type: CLOUDFORMATION_STACK_1_0
-  ApplicationInsightsMonitoring:
-    Type: AWS::ApplicationInsights::Application
-    Properties:
-      ResourceGroupName:
-        Fn::Join:
-        - ''
-        - - ApplicationInsights-SAM-
-          - Ref: AWS::StackName
-      AutoConfigurationEnabled: 'true'
-    DependsOn: ApplicationResourceGroup
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
