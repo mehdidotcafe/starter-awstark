@@ -26,7 +26,7 @@ jobs:
     - run: npm install
     - run: npm install esbuild -g
     - run: npm run build
-    - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --parameter-overrides 'DbUrl=${{ env.DB_URL }}, ShadowDbUrl=${{ env.SHADOW_DB_URL }}'
+    - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --parameter-overrides 'DbUrl=${{ env.DB_URL }} ShadowDbUrl=${{ env.SHADOW_DB_URL }}'
       env:
         CI: true
 
