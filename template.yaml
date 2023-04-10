@@ -6,6 +6,9 @@ Parameters:
   DbUrl:
     Type: String
     Description: Database URL
+  ShadowDbUrl:
+    Type: String
+    Description: Shadow Database URL
 
 Globals:
   Function:
@@ -19,6 +22,7 @@ Globals:
     Environment:
       Variables:
         DB_URL: !Ref DbUrl
+        SHADOW_DB_URL: !Ref ShadowDbUrl
 
   Api:
     TracingEnabled: true
