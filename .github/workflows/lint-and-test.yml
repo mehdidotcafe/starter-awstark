@@ -35,7 +35,15 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
+    - name: Create test branch
+      run: ./scripts/neon/create-test-branch.sh
     - run: npm install
-    - run: npm test
+    - name: Run tests
+      run: npm test
       env:
         CI: true
+        DB_URL: "${{env.DB_PROTOCOL}}://${{env.DB_USER}}:${{env.DB_PASSWORD}}@${{env.DB_HOST}}:${{env.DB_PORT}}/${{env.DB_NAME}}"
+        SHADOW_DB_URL: "${{env.DB_PROTOCOL}}://${{env.DB_USER}}:${{env.DB_PASSWORD}}@${{env.DB_HOST}}:${{env.DB_PORT}}/${{env.SHADOW_DB_NAME}}"
+    - name: Delete test branch
+      if: always()
+      run: ./scripts/neon/delete-test-branch.sh
