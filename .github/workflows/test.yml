@@ -24,14 +24,14 @@ jobs:
     - run: npm install
     - uses: ./.github/workflows/actions/migrate-db
       with:
-        DB_URL: "${{env.DB_PROTOCOL}}://${{env.DB_USER}}:${{env.DB_PASSWORD}}@${{env.DB_HOST}}:${{env.DB_PORT}}/${{env.DB_NAME}}"
-        SHADOW_DB_URL: "${{env.DB_PROTOCOL}}://${{env.DB_USER}}:${{env.DB_PASSWORD}}@${{env.DB_HOST}}:${{env.DB_PORT}}/${{env.SHADOW_DB_NAME}}"
+        DB_URL: "${{env.DB_PROTOCOL}}://${{env.DB_USER}}:${{env.DB_PASSWORD}}@${{env.DB_HOST}}:${{env.DB_PORT}}/${{env.DB_NAME}}?connect_timeout=${{env.DB_CONNECT_TIMEOUT}}"
+        SHADOW_DB_URL: "${{env.DB_PROTOCOL}}://${{env.DB_USER}}:${{env.DB_PASSWORD}}@${{env.DB_HOST}}:${{env.DB_PORT}}/${{env.SHADOW_DB_NAME}}?connect_timeout=${{env.DB_CONNECT_TIMEOUT}}"
     - name: Run tests
       run: (npm install && npm test)
       env:
         CI: true
-        DB_URL: "${{env.DB_PROTOCOL}}://${{env.DB_USER}}:${{env.DB_PASSWORD}}@${{env.DB_HOST}}:${{env.DB_PORT}}/${{env.DB_NAME}}"
-        SHADOW_DB_URL: "${{env.DB_PROTOCOL}}://${{env.DB_USER}}:${{env.DB_PASSWORD}}@${{env.DB_HOST}}:${{env.DB_PORT}}/${{env.SHADOW_DB_NAME}}"
+        DB_URL: "${{env.DB_PROTOCOL}}://${{env.DB_USER}}:${{env.DB_PASSWORD}}@${{env.DB_HOST}}:${{env.DB_PORT}}/${{env.DB_NAME}}?connect_timeout=${{env.DB_CONNECT_TIMEOUT}}"
+        SHADOW_DB_URL: "${{env.DB_PROTOCOL}}://${{env.DB_USER}}:${{env.DB_PASSWORD}}@${{env.DB_HOST}}:${{env.DB_PORT}}/${{env.SHADOW_DB_NAME}}?connect_timeout=${{env.DB_CONNECT_TIMEOUT}}"
     - name: Delete test branch
       if: always()
       run: ./scripts/neon/delete-test-branch.sh
