@@ -1,24 +1,8 @@
-name: Node.js CI
+name: test
 
 on: [push]
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
-    steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm install
-    - run: npm run lint
-      env:
-        CI: true
-
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -38,8 +22,12 @@ jobs:
     - name: Create test branch
       run: ./scripts/neon/create-test-branch.sh
     - run: npm install
+    - uses: ./.github/workflows/actions/migrate-db
+      with:
+        DB_URL: "${{env.DB_PROTOCOL}}://${{env.DB_USER}}:${{env.DB_PASSWORD}}@${{env.DB_HOST}}:${{env.DB_PORT}}/${{env.DB_NAME}}"
+        SHADOW_DB_URL: "${{env.DB_PROTOCOL}}://${{env.DB_USER}}:${{env.DB_PASSWORD}}@${{env.DB_HOST}}:${{env.DB_PORT}}/${{env.SHADOW_DB_NAME}}"
     - name: Run tests
-      run: npm test
+      run: (npm install && npm test)
       env:
         CI: true
         DB_URL: "${{env.DB_PROTOCOL}}://${{env.DB_USER}}:${{env.DB_PASSWORD}}@${{env.DB_HOST}}:${{env.DB_PORT}}/${{env.DB_NAME}}"

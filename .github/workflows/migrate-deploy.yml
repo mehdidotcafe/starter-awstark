@@ -1,4 +1,4 @@
-name: Build & Deploy CI 
+name: Migrate & Deploy CI 
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
     branches: [main]
 
 jobs:
-  sam_build_and_deploy:
+  sam_migrate_build_and_deploy:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -23,31 +23,11 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
-    - run: npm install
-    - run: npm install esbuild -g
-    - run: npm run build
+    - uses: ./.github/workflows/actions/migrate-db
+      with:
+        DB_URL: ${{ env.DB_URL }}
+        SHADOW_DB_URL: ${{ env.SHADOW_DB_URL }}
+    - run: npm install --omit=dev && npm install esbuild -g && npm run build
     - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --parameter-overrides 'DbUrl=${{ env.DB_URL }} ShadowDbUrl=${{ env.SHADOW_DB_URL }}'
-      env:
-        CI: true
-
-  db_migrate:
-    runs-on: ubuntu-latest
-    needs: sam_build_and_deploy
-    strategy:
-      matrix:
-        node-version: [18.x]
-    steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - uses: ./.github/workflows/actions/export-secrets-in-env
-      with:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: ${{ secrets.AWS_REGION }}
-    - run: npm install --production
-    - run: npm run db:migrate
       env:
         CI: true
