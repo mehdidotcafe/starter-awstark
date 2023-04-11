@@ -1,0 +1,22 @@
+name: 'Migrate Database'
+description: 'Migrate database depending on DB_URL'
+inputs:
+  DB_URL:
+    description: 'Database URL'
+    required: true
+  SHADOW_DB_URL:
+    description: 'Shadow Database URL'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: (npm install --omit=dev && npm run db:migrate)
+      env:
+        DB_URL: ${{ inputs.DB_URL }}
+        SHADOW_DB_URL: ${{ inputs.SHADOW_DB_URL }}
+      shell: bash
