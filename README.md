@@ -7,3 +7,4 @@
 - husky & lint-staged  
 - github actions  
 - prisma  
+- neon
