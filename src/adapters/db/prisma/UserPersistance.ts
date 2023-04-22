@@ -12,14 +12,18 @@ const defaultSelect = {
   firstname: true,
 }
 
-const getByEmail = (email: User['email']) => prisma.user.findUnique({
+export const getByEmail: IUserPersistance['getByEmail'] = (
+  email: User['email'],
+) => prisma.user.findUnique({
   where: {
     email,
   },
   select: defaultSelect,
 }).then((foundUser) => foundUser ?? undefined)
 
-const createIfNotExists = async (user: Pick<User, 'email' | 'firstname' | 'password'>) => {
+export const createIfNotExists: IUserPersistance['createIfNotExists'] = async (
+  user: Pick<User, 'email' | 'firstname' | 'password'>,
+) => {
   try {
     return await prisma.user.create({
       data: user,
@@ -33,10 +37,3 @@ const createIfNotExists = async (user: Pick<User, 'email' | 'firstname' | 'passw
     }
   }
 }
-
-const userPersistance: IUserPersistance = {
-  getByEmail,
-  createIfNotExists,
-}
-
-export default userPersistance

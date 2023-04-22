@@ -16,13 +16,13 @@ export const validator = z.object({
   }),
 })
 
-export default (userPersistance: IUserPersistance) => async (
+export default ({ createIfNotExists }: Pick<IUserPersistance, 'createIfNotExists'>) => async (
   event: ApiEvent<typeof validator>,
 ): Promise<ApiResponse> => {
   const userToCreate = event.body
 
   try {
-    const createdUser = await userPersistance.createIfNotExists(userToCreate)
+    const createdUser = await createIfNotExists(userToCreate)
 
     return success({
       message: 'User created',
