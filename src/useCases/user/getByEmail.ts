@@ -32,7 +32,6 @@ export default ({ getByEmail }: Pick<IUserPersistance, 'getByEmail'>) => async (
       data: foundUser,
     })
   } catch (err) {
-    console.error(err)
     return serviceUnavailable({
       message: 'Service unavailable',
     })
