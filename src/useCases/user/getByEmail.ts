@@ -13,13 +13,13 @@ export const validator = z.object({
   }),
 })
 
-export default (userPersistance: IUserPersistance) => async (
+export default ({ getByEmail }: Pick<IUserPersistance, 'getByEmail'>) => async (
   event: ApiEvent<typeof validator>,
 ): Promise<ApiResponse> => {
   const { email } = event.queryStringParameters
 
   try {
-    const foundUser = await userPersistance.getByEmail(email)
+    const foundUser = await getByEmail(email)
 
     if (!foundUser) {
       return notFound({
@@ -34,10 +34,6 @@ export default (userPersistance: IUserPersistance) => async (
   } catch (err) {
     return serviceUnavailable({
       message: 'Service unavailable',
-      data: {
-        code: err.code,
-        error: err.message,
-      },
     })
   }
 }

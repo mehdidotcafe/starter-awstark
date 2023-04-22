@@ -42,7 +42,6 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Format: cjs
-        Minify: true
         Target: "es2020"
         EntryPoints: 
           - src/handlers/status/isUp.ts
@@ -60,7 +59,6 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Format: cjs
-        Minify: true
         Target: "es2020"
         EntryPoints: 
           - src/handlers/user/getByEmail.ts
@@ -78,7 +76,6 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         Format: cjs
-        Minify: true
         Target: "es2020"
         EntryPoints: 
           - src/handlers/user/createIfNotExists.ts
