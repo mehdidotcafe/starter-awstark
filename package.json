@@ -12,7 +12,7 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "lint:staged": "lint-staged",
     "build": "sam build && ./scripts/post-build.sh",
-    "db:migrate": "prisma migrate deploey",
+    "db:migrate": "prisma migrate deploy",
     "start": "rm -r .aws-sam & concurrently --names \"tsc,sam\" -c \"bgBlue.bold,bgMagenta.bold\" \"yarn start:tsc\" \"yarn start:sam\"",
     "start:tsc": "tsc -w",
     "start:sam": "dotenv sam local start-api 2>&1 | tr '\\r' '\\n'",
