@@ -1,12 +1,12 @@
 import { z } from 'zod'
 
-import type ApiResponse from '../../domain/http/ApiResponse'
+import IHandler from '../../domain/http/IHandler'
 import internalError from '../../response/internalError'
 import success from '../../response/success'
 
 export const validator = z.object({})
 
-export default async (): Promise<ApiResponse> => {
+export const handler: IHandler<typeof validator> = () => async () => {
   try {
     return success({
       message: 'up',

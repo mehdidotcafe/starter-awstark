@@ -1,8 +1,7 @@
 import { z } from 'zod'
 
 import IUserPersistance from '../../domain/db/IUserPersistance'
-import type ApiEvent from '../../domain/http/ApiEvent'
-import type ApiResponse from '../../domain/http/ApiResponse'
+import type IHandler from '../../domain/http/IHandler'
 import notFound from '../../response/notFound'
 import serviceUnavailable from '../../response/serviceUnavailable'
 import success from '../../response/success'
@@ -13,9 +12,9 @@ export const validator = z.object({
   }),
 })
 
-export default ({ getByEmail }: Pick<IUserPersistance, 'getByEmail'>) => async (
-  event: ApiEvent<typeof validator>,
-): Promise<ApiResponse> => {
+export const handler: IHandler<typeof validator, Pick<IUserPersistance, 'getByEmail'>> = ({ getByEmail }) => async (
+  event,
+) => {
   const { email } = event.queryStringParameters
 
   try {

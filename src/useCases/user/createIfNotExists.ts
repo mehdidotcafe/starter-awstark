@@ -2,8 +2,7 @@ import { z } from 'zod'
 
 import ErrorPersistance from '../../domain/db/ErrorPersistance'
 import IUserPersistance from '../../domain/db/IUserPersistance'
-import type ApiEvent from '../../domain/http/ApiEvent'
-import type ApiResponse from '../../domain/http/ApiResponse'
+import type IHandler from '../../domain/http/IHandler'
 import conflict from '../../response/conflict'
 import serviceUnavailable from '../../response/serviceUnavailable'
 import success from '../../response/success'
@@ -16,9 +15,9 @@ export const validator = z.object({
   }),
 })
 
-export default ({ createIfNotExists }: Pick<IUserPersistance, 'createIfNotExists'>) => async (
-  event: ApiEvent<typeof validator>,
-): Promise<ApiResponse> => {
+export const handler: IHandler<typeof validator, Pick<IUserPersistance, 'createIfNotExists'>> = ({
+  createIfNotExists,
+}) => async (event) => {
   const userToCreate = event.body
 
   try {
