@@ -1,13 +1,14 @@
 import middy from '@middy/core'
 import {
-  ZodError, ZodObject, ZodRawShape,
+  ZodError,
 } from 'zod'
 
 import type ApiEvent from '../domain/http/ApiEvent'
 import type ApiResponse from '../domain/http/ApiResponse'
+import type IValidator from '../domain/http/IValidator'
 import badRequest from '../response/badRequest'
 
-const httpMiddleware = <Validator extends ZodObject<ZodRawShape>>(
+const httpMiddleware = <Validator extends IValidator>(
   validator: Validator,
 ): Returns<Validator> => {
   const before: middy.MiddlewareFn<ApiEvent, ApiResponse> = async (
@@ -48,7 +49,7 @@ const mapZodErrorToApiErrors = (error: ZodError): ApiResponse['body']['errors'] 
 
 const VALIDATION_ERROR_MESSAGE = 'Validation error'
 
-type Returns<Validator extends ZodObject<ZodRawShape>> = middy.MiddlewareObj<
+type Returns<Validator extends IValidator> = middy.MiddlewareObj<
 ApiEvent<Validator>,
 ApiResponse
 >
