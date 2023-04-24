@@ -6,16 +6,16 @@
   "private": false,
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "test": "dotenv jest",
-    "test:watch": "dotenv jest --watch",
+    "test": "dotenv -- jest",
+    "test:watch": "dotenv -- jest --watch",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "lint:staged": "lint-staged",
     "build": "sam build && ./scripts/post-build.sh",
-    "db:migrate": "dotenv prisma migrate deploy",
+    "db:migrate": "dotenv -- prisma migrate deploy",
     "start": "rm -r .aws-sam & concurrently --names \"tsc,sam\" -c \"bgBlue.bold,bgMagenta.bold\" \"yarn start:tsc\" \"yarn start:sam\"",
     "start:tsc": "tsc -w",
-    "start:sam": "dotenv sam local start-api 2>&1 | tr '\\r' '\\n'",
+    "start:sam": "dotenv -- sam local start-api 2>&1 | tr '\\r' '\\n'",
     "prepare": "husky install || true"
   },
   "devDependencies": {
