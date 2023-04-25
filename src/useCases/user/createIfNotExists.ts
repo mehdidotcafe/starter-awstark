@@ -2,10 +2,13 @@ import { z } from 'zod'
 
 import ErrorPersistance from '../../domain/db/ErrorPersistance'
 import IUserPersistance from '../../domain/db/IUserPersistance'
+import IPasswordHasher from '../../domain/encryption/IPasswordHasher'
 import type IHandler from '../../domain/http/IHandler'
 import conflict from '../../response/conflict'
 import serviceUnavailable from '../../response/serviceUnavailable'
 import success from '../../response/success'
+
+type Dependencies = Pick<IUserPersistance, 'createIfNotExists'> & Pick<IPasswordHasher, 'hash'>
 
 export const validator = z.object({
   body: z.object({
@@ -15,13 +18,18 @@ export const validator = z.object({
   }),
 })
 
-export const handler: IHandler<typeof validator, Pick<IUserPersistance, 'createIfNotExists'>> = ({
+export const handler: IHandler<typeof validator, Dependencies> = ({
   createIfNotExists,
+  hash,
 }) => async (event) => {
   const userToCreate = event.body
+  const hashedPassword = await hash(userToCreate.password)
 
   try {
-    const createdUser = await createIfNotExists(userToCreate)
+    const createdUser = await createIfNotExists({
+      ...userToCreate,
+      password: hashedPassword,
+    })
 
     return success({
       message: 'User created',
