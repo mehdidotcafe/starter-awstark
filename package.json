@@ -43,7 +43,7 @@
   "dependencies": {
     "@middy/core": "^4.2.8",
     "@middy/http-json-body-parser": "^4.2.8",
-    "@prisma/client": "4.12.0-integration-rtld-deepbind.3",
+    "@prisma/client": "4.13.0",
     "zod": "^3.21.4"
   },
   "lint-staged": {
