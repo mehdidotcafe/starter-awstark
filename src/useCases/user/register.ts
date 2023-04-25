@@ -32,7 +32,7 @@ export const handler: IHandler<typeof validator, Dependencies> = ({
     })
 
     return success({
-      message: 'User created',
+      message: 'User registered',
       data: createdUser,
     })
   } catch (err) {

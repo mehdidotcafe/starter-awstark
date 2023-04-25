@@ -1,9 +1,9 @@
-import handler from '../../../src/handlers/user/createIfNotExists'
+import handler from '../../../src/handlers/user/register'
 import makeFakeContext from '../factories/makeFakeContext'
 import makeFakeRequest from '../factories/makeFakeRequest'
 
-describe('Create user', () => {
-  it('should not create user when user email is not valid', async () => {
+describe('Register user', () => {
+  it('should not register user when user email is not valid', async () => {
     const result = await handler(makeFakeRequest({
       body: {
         email: 'not_a_valid_email',
@@ -24,7 +24,7 @@ describe('Create user', () => {
     })
   })
 
-  it('should not create user when user password is too weak', async () => {
+  it('should not register user when user password is too weak', async () => {
     const result = await handler(makeFakeRequest({
       body: {
         email: 'valid@email.com',
@@ -45,7 +45,7 @@ describe('Create user', () => {
     })
   })
 
-  it('should not create user when user firstname is too small', async () => {
+  it('should not register user when user firstname is too small', async () => {
     const result = await handler(makeFakeRequest({
       body: {
         email: 'valid@email.com',
@@ -66,47 +66,47 @@ describe('Create user', () => {
     })
   })
 
-  it('should create user when user email, password, firstname are valid', async () => {
-    const userToCreate = {
+  it('should register user when user email, password, firstname are valid', async () => {
+    const userToRegister = {
       email: `valid_${new Date().getTime()}@email.com`,
       password: '123456789',
       firstname: 'valid_firstname',
     }
 
     const result = await handler(makeFakeRequest({
-      body: userToCreate,
+      body: userToRegister,
     }), makeFakeContext())
 
     expect(result.statusCode).toEqual(200)
     expect(JSON.parse(result.body)).toEqual({
-      message: 'User created',
+      message: 'User registered',
       data: {
         id: expect.any(Number),
-        email: userToCreate.email,
-        firstname: userToCreate.firstname,
+        email: userToRegister.email,
+        firstname: userToRegister.firstname,
       },
     })
   })
 
-  it('should NOT create user when user email is already used', async () => {
-    const userToCreateFirst = {
+  it('should NOT register user when user email is already used', async () => {
+    const userToRegisterFirst = {
       email: `valid_${new Date().getTime()}@email.com`,
       password: '123456789',
       firstname: 'valid_firstname',
     }
 
     await handler(makeFakeRequest({
-      body: userToCreateFirst,
+      body: userToRegisterFirst,
     }), makeFakeContext())
 
-    const userToCreateSecond = {
-      email: userToCreateFirst.email,
+    const userToRegisterSecond = {
+      email: userToRegisterFirst.email,
       password: 'another_123456789',
       firstname: 'another_valid_firstname',
     }
 
     const result = await handler(makeFakeRequest({
-      body: userToCreateSecond,
+      body: userToRegisterSecond,
     }), makeFakeContext())
 
     expect(result.statusCode).toEqual(409)
