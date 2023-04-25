@@ -45,10 +45,10 @@ Resources:
         Target: "es2020"
         EntryPoints: 
           - src/handlers/status/isUp.ts
-  UserGetFunction:
+  UserGetProfileFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: build/handlers/user/getByEmail.default
+      Handler: build/handlers/user/getProfile.default
       Events:
         Status:
           Type: Api
@@ -61,11 +61,11 @@ Resources:
         Format: cjs
         Target: "es2020"
         EntryPoints: 
-          - src/handlers/user/getByEmail.ts
-  UserPostFunction:
+          - src/handlers/user/getProfile.ts
+  UserRegisterFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: build/handlers/user/createIfNotExists.default
+      Handler: build/handlers/user/register.default
       Events:
         Status:
           Type: Api
@@ -78,7 +78,7 @@ Resources:
         Format: cjs
         Target: "es2020"
         EntryPoints: 
-          - src/handlers/user/createIfNotExists.ts
+          - src/handlers/user/register.ts
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM

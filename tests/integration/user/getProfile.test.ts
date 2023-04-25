@@ -1,20 +1,20 @@
-import createIfNotExistsHandler from '../../../src/handlers/user/createIfNotExists'
-import getByEmailHandler from '../../../src/handlers/user/getByEmail'
+import getProfileHandler from '../../../src/handlers/user/getProfile'
+import registerHandler from '../../../src/handlers/user/register'
 import makeFakeUser from '../../factories/makeFakeUser'
 import makeFakeContext from '../factories/makeFakeContext'
 import makeFakeRequest from '../factories/makeFakeRequest'
 
-describe('Get user by email', () => {
-  it('should get user by email when user exists', async () => {
-    const userToCreate = makeFakeUser()
+describe('Get user profile by email', () => {
+  it('should get user profile by email when user exists', async () => {
+    const userToRegister = makeFakeUser()
 
-    await createIfNotExistsHandler(makeFakeRequest({
-      body: userToCreate,
+    await registerHandler(makeFakeRequest({
+      body: userToRegister,
     }), makeFakeContext())
 
-    const result = await getByEmailHandler(makeFakeRequest({
+    const result = await getProfileHandler(makeFakeRequest({
       queryStringParameters: {
-        email: userToCreate.email,
+        email: userToRegister.email,
       },
     }), makeFakeContext())
 
@@ -23,16 +23,16 @@ describe('Get user by email', () => {
       message: 'User found',
       data: {
         id: expect.any(Number),
-        email: userToCreate.email,
-        firstname: userToCreate.firstname,
+        email: userToRegister.email,
+        firstname: userToRegister.firstname,
       },
     })
   })
 
-  it('should NOT get user by email when doesn\'t user exist', async () => {
+  it('should NOT get user profile by email when doesn\'t user exist', async () => {
     const userWhoDoesntExist = makeFakeUser()
 
-    const result = await getByEmailHandler(makeFakeRequest({
+    const result = await getProfileHandler(makeFakeRequest({
       queryStringParameters: {
         email: userWhoDoesntExist.email,
       },
