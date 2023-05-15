@@ -43,7 +43,7 @@
   "dependencies": {
     "@middy/core": "^4.4.0",
     "@middy/http-json-body-parser": "^4.4.0",
-    "@prisma/client": "4.13.0",
+    "@prisma/client": "4.14.0",
     "zod": "^3.21.4"
   },
   "lint-staged": {
